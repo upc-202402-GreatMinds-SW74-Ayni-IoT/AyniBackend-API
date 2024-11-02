@@ -2,11 +2,10 @@ package com.greatminds.ayni.monitoring.application.internal.commandservices;
 
 import com.greatminds.ayni.monitoring.domain.model.aggregates.Sensor;
 import com.greatminds.ayni.monitoring.domain.model.commands.CreateSensorCommand;
-import com.greatminds.ayni.monitoring.domain.model.commands.DeleteSensorCommand;
-import com.greatminds.ayni.monitoring.domain.model.commands.UpdateSensorCommand;
-import com.greatminds.ayni.monitoring.domain.model.commands.UpdateSensorValuesCommand;
 import com.greatminds.ayni.monitoring.domain.services.SensorCommandService;
 import com.greatminds.ayni.monitoring.infrastructure.pesistence.jpa.repositories.SensorRepository;
+import com.greatminds.ayni.monitoring.interfaces.rest.resources.UpdateSensorResource;
+import com.greatminds.ayni.monitoring.interfaces.rest.resources.UpdateSensorValuesResource;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,26 +26,29 @@ public class SensorCommandServiceImpl implements SensorCommandService {
     }
 
     @Override
-    public void handle(DeleteSensorCommand command) {
-        if (!sensorRepository.existsById(command.id())) {
-            throw new IllegalArgumentException("Sensor with ID " + command.id() + " not found");
-        }
-        sensorRepository.deleteById(command.id());
+    public Long deleteSensor(Long id) {
+        if (!sensorRepository.existsById(id)) throw new IllegalArgumentException("Sensor does not exist");
+        sensorRepository.deleteById(id);
+        return id;
     }
 
     @Override
-    public Optional<Sensor> handle(UpdateSensorCommand command) {
-        if (!sensorRepository.existsById(command.id())) throw new IllegalArgumentException("Sensor does not exist");
-        var sensorToUpdate = sensorRepository.findById(command.id()).get();
-        var updatedSensor = sensorRepository.save(sensorToUpdate.update(command.temperature(), command.hydration(), command.oxygenation(), command.waterLevel(), command.cropId()));
-        return Optional.of(updatedSensor);
+    public Long updateSensor(Long id, UpdateSensorResource request) {
+        Sensor sensor = sensorRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Sensor does not exist"));
+
+        sensor.update(new Sensor(request.temperature(), request.hydration(), request.oxygenation(), request.waterLevel(), request.cropId()));
+        sensorRepository.save(sensor);
+        return sensor.getId();
     }
 
     @Override
-    public Optional<Sensor> handle(UpdateSensorValuesCommand command) {
-        if (!sensorRepository.existsById(command.cropId())) throw new IllegalArgumentException("Sensor does not exist");
-        var sensorToUpdate = sensorRepository.findById(command.cropId()).get();
-        var updatedSensor = sensorRepository.save(sensorToUpdate.updateValues(command.temperature(), command.hydration(), command.oxygenation(), command.waterLevel()));
-        return Optional.of(updatedSensor);
+    public Long updateSensorValues(Long cropId, UpdateSensorValuesResource request) {
+        Sensor sensor = sensorRepository.findSensorByCropId(cropId)
+                .orElseThrow(() -> new IllegalArgumentException("Sensor does not exist"));
+
+        sensor.updateValues(request.temperature(), request.hydration(), request.oxygenation(), request.waterLevel());
+        sensorRepository.save(sensor);
+        return sensor.getId();
     }
 }

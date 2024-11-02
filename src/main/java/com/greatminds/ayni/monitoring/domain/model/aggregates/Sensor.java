@@ -38,26 +38,25 @@ public class Sensor {
         this.cropId = cropId;
     }
 
-    public Sensor update(Float temperature, Float hydration, Float oxygenation, Float waterLevel, Long cropId) {
-        if (temperature != null) {
-            this.temperature = temperature;
+    public void update(Sensor request) {
+        if (request.temperature != null) {
+            this.temperature = request.temperature;
         }
-        if (hydration != null) {
-            this.hydration = hydration;
+        if (request.hydration != null) {
+            this.hydration = request.hydration;
         }
-        if (oxygenation != null) {
-            this.oxygenation = oxygenation;
+        if (request.oxygenation != null) {
+            this.oxygenation = request.oxygenation;
         }
-        if (waterLevel != null) {
-            this.waterLevel = waterLevel;
+        if (request.waterLevel != null) {
+            this.waterLevel = request.waterLevel;
         }
-        if (cropId != null) {
-            this.cropId = cropId;
+        if (request.cropId != null) {
+            this.cropId = request.cropId;
         }
-        return this;
     }
 
-    public Sensor updateValues(Float temperature, Float hydration, Float oxygenation, Float waterLevel) {
+    public void updateValues(Float temperature, Float hydration, Float oxygenation, Float waterLevel) {
         if (temperature != null) {
             this.temperature = temperature;
         }
@@ -70,6 +69,5 @@ public class Sensor {
         if (waterLevel != null) {
             this.waterLevel = waterLevel;
         }
-        return this;
     }
 }

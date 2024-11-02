@@ -2,6 +2,7 @@ package com.greatminds.ayni.monitoring.application.internal.queryservices;
 
 import com.greatminds.ayni.monitoring.domain.model.aggregates.Sensor;
 import com.greatminds.ayni.monitoring.domain.model.queries.GetAllSensorsByCropIdQuery;
+import com.greatminds.ayni.monitoring.domain.model.queries.GetSensorByCropIdQuery;
 import com.greatminds.ayni.monitoring.domain.model.queries.GetSensorByIdAndCropIdQuery;
 import com.greatminds.ayni.monitoring.domain.model.queries.GetSensorByIdQuery;
 import com.greatminds.ayni.monitoring.domain.services.SensorQueryService;
@@ -32,5 +33,10 @@ public class SensorQueryServiceImpl implements SensorQueryService {
     @Override
     public Optional<Sensor> handle(GetSensorByIdQuery query) {
         return this.sensorRepository.findById(query.id());
+    }
+
+    @Override
+    public Optional<Sensor> handle(GetSensorByCropIdQuery query) {
+        return this.sensorRepository.findSensorByCropId(query.cropId());
     }
 }

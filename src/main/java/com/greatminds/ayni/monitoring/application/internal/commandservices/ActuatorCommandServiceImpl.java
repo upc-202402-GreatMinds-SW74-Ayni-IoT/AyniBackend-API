@@ -2,12 +2,11 @@ package com.greatminds.ayni.monitoring.application.internal.commandservices;
 
 import com.greatminds.ayni.monitoring.domain.model.aggregates.Actuator;
 import com.greatminds.ayni.monitoring.domain.model.commands.CreateActuatorCommand;
-import com.greatminds.ayni.monitoring.domain.model.commands.DeleteActuatorCommand;
-import com.greatminds.ayni.monitoring.domain.model.commands.UpdateActuatorCommand;
 import com.greatminds.ayni.monitoring.domain.model.queries.GetSensorByIdQuery;
 import com.greatminds.ayni.monitoring.domain.services.ActuatorCommandService;
 import com.greatminds.ayni.monitoring.domain.services.SensorQueryService;
 import com.greatminds.ayni.monitoring.infrastructure.pesistence.jpa.repositories.ActuatorRepository;
+import com.greatminds.ayni.monitoring.interfaces.rest.resources.UpdateActuatorResource;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -33,18 +32,21 @@ public class ActuatorCommandServiceImpl implements ActuatorCommandService {
     }
 
     @Override
-    public void handle(DeleteActuatorCommand command) {
-        if (!actuatorRepository.existsById(command.id())) {
-            throw new IllegalArgumentException("Actuator with ID " + command.id() + " not found");
+    public Long deleteActuator(Long id){
+        if (!actuatorRepository.existsById(id)) {
+            throw new IllegalArgumentException("Actuator with id " + id + " does not exist");
         }
-        actuatorRepository.deleteById(command.id());
+        actuatorRepository.deleteById(id);
+        return id;
     }
 
     @Override
-    public Optional<Actuator> handle(UpdateActuatorCommand command) {
-        if (!actuatorRepository.existsById(command.id())) throw new IllegalArgumentException("Actuator does not exist");
-        var actuatorToUpdate = actuatorRepository.findById(command.id()).get();
-        var updatedActuator = actuatorRepository.save(actuatorToUpdate.updateStatus(command.status()));
-        return Optional.of(updatedActuator);
+    public Long updateActuator(Long id, UpdateActuatorResource request){
+        Actuator actuator = actuatorRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Actuator with id " + id + " does not exist"));
+
+        actuator.updateStatus(request.status());
+        actuatorRepository.save(actuator);
+        return actuator.getId();
     }
 }

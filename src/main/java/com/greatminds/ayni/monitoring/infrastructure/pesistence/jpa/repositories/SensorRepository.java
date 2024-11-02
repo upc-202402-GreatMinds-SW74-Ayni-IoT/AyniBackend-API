@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface SensorRepository extends JpaRepository<Sensor, Long> {
     List<Sensor> findAllSensorsByCropId(Long cropId);
+    Optional<Sensor> findSensorByCropId(Long cropId);
     Optional<Sensor> findSensorByIdAndCropId(Long id, Long cropId);
 }

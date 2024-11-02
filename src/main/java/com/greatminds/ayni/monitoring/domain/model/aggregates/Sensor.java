@@ -21,6 +21,8 @@ public class Sensor {
     @Getter
     private Float oxygenation;
 
+    @Getter
+    private Float waterLevel;
 
     @Getter
     private Long cropId;
@@ -28,14 +30,15 @@ public class Sensor {
     public Sensor() {
     }
 
-    public Sensor(Float temperature, Float hydration, Float oxygenation, Long cropId) {
+    public Sensor(Float temperature, Float hydration, Float oxygenation, Float waterLevel, Long cropId) {
         this.temperature = temperature;
         this.oxygenation = oxygenation;
         this.hydration = hydration;
+        this.waterLevel = waterLevel;
         this.cropId = cropId;
     }
 
-    public Sensor update(Float temperature, Float hydration, Float oxygenation, Long cropId) {
+    public Sensor update(Float temperature, Float hydration, Float oxygenation, Float waterLevel, Long cropId) {
         if (temperature != null) {
             this.temperature = temperature;
         }
@@ -45,8 +48,27 @@ public class Sensor {
         if (oxygenation != null) {
             this.oxygenation = oxygenation;
         }
+        if (waterLevel != null) {
+            this.waterLevel = waterLevel;
+        }
         if (cropId != null) {
             this.cropId = cropId;
+        }
+        return this;
+    }
+
+    public Sensor updateValues(Float temperature, Float hydration, Float oxygenation, Float waterLevel) {
+        if (temperature != null) {
+            this.temperature = temperature;
+        }
+        if (hydration != null) {
+            this.hydration = hydration;
+        }
+        if (oxygenation != null) {
+            this.oxygenation = oxygenation;
+        }
+        if (waterLevel != null) {
+            this.waterLevel = waterLevel;
         }
         return this;
     }

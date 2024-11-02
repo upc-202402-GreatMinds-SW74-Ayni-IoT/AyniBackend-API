@@ -5,7 +5,7 @@ import com.greatminds.ayni.monitoring.interfaces.rest.resources.UpdateSensorReso
 
 public class UpdateSensorCommandFromResourceAssembler {
     public static UpdateSensorCommand toCommandFromResource(Long sensorId, UpdateSensorResource resource){
-        return new UpdateSensorCommand(sensorId, resource.temperature(), resource.hydration(), resource.oxygenation(),
+        return new UpdateSensorCommand(sensorId, resource.temperature(), resource.hydration(), resource.oxygenation(), resource.waterLevel(),
                 resource.cropId());
     }
 }

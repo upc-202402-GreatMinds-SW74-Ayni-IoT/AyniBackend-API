@@ -5,7 +5,7 @@ import com.greatminds.ayni.monitoring.interfaces.rest.resources.CreateSensorReso
 
 public class CreateSensorCommandFromResourceAssembler {
     public static CreateSensorCommand toCommandFromResource(CreateSensorResource resource){
-        return new CreateSensorCommand(resource.temperature(),resource.hydration(),resource.oxygenation(),
+        return new CreateSensorCommand(resource.temperature(),resource.hydration(),resource.oxygenation(), resource.waterLevel(),
                 resource.cropId());
     }
 }

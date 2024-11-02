@@ -42,6 +42,18 @@ public class Crop {
     private Long pestCleanupDays;
 
     @Getter
+    private Float recommendedTemperature;
+
+    @Getter
+    private Float recommendedHumidity;
+
+    @Getter
+    private Float recommendedOxygen;
+
+    @Getter
+    private Float recommendedWaterLevel;
+
+    @Getter
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
@@ -57,7 +69,9 @@ public class Crop {
      * @return Crop
      */
     public Crop(String name, Boolean pickUpWeed, Boolean fertilizeCrop, Boolean oxygenateCrop, Boolean makeCropLine,
-                Boolean makeCropHole, Long wateringDays, Long pestCleanupDays, Product product, Long userId) {
+                Boolean makeCropHole, Long wateringDays, Long pestCleanupDays,
+                Float recommendedTemperature, Float recommendedHumidity, Float recommendedOxygen,
+                Float recommendedWaterLevel, Product product, Long userId) {
         this.name = name;
         this.pickUpWeed = pickUpWeed;
         this.fertilizeCrop = fertilizeCrop;
@@ -66,6 +80,10 @@ public class Crop {
         this.makeCropHole = makeCropHole;
         this.wateringDays = wateringDays;
         this.pestCleanupDays = pestCleanupDays;
+        this.recommendedTemperature = recommendedTemperature;
+        this.recommendedHumidity = recommendedHumidity;
+        this.recommendedOxygen = recommendedOxygen;
+        this.recommendedWaterLevel = recommendedWaterLevel;
         this.product = product;
         this.userId = userId;
     }
@@ -75,7 +93,9 @@ public class Crop {
      * @return Crop
      */
     public Crop updateInformation(String name, Boolean pickUpWeed, Boolean fertilizeCrop, Boolean oxygenateCrop, Boolean makeCropLine,
-                                  Boolean makeCropHole, Long wateringDays, Long pestCleanupDays, Product product, Long userId) {
+                                  Boolean makeCropHole, Long wateringDays, Long pestCleanupDays,
+                                  Float recommendedTemperature, Float recommendedHumidity, Float recommendedOxygen,
+                                  Float recommendedWaterLevel, Product product, Long userId) {
         this.name = name;
         this.pickUpWeed = pickUpWeed;
         this.fertilizeCrop = fertilizeCrop;
@@ -84,6 +104,10 @@ public class Crop {
         this.makeCropHole = makeCropHole;
         this.wateringDays = wateringDays;
         this.pestCleanupDays = pestCleanupDays;
+        this.recommendedTemperature = recommendedTemperature;
+        this.recommendedHumidity = recommendedHumidity;
+        this.recommendedOxygen = recommendedOxygen;
+        this.recommendedWaterLevel = recommendedWaterLevel;
         this.product = product;
         this.userId = userId;
         return this;

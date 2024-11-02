@@ -15,6 +15,10 @@ public class CropResourceFromEntityAssembler {
                 entity.getMakeCropHole(),
                 entity.getWateringDays(),
                 entity.getPestCleanupDays(),
+                entity.getRecommendedTemperature(),
+                entity.getRecommendedHumidity(),
+                entity.getRecommendedOxygen(),
+                entity.getRecommendedWaterLevel(),
                 entity.getProduct().getId(),
                 entity.getUserId()
         );

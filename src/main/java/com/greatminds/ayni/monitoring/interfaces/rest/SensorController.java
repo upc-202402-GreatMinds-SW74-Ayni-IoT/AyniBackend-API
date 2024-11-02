@@ -7,9 +7,11 @@ import com.greatminds.ayni.monitoring.domain.services.SensorQueryService;
 import com.greatminds.ayni.monitoring.interfaces.rest.resources.CreateSensorResource;
 import com.greatminds.ayni.monitoring.interfaces.rest.resources.SensorResource;
 import com.greatminds.ayni.monitoring.interfaces.rest.resources.UpdateSensorResource;
+import com.greatminds.ayni.monitoring.interfaces.rest.resources.UpdateSensorValuesResource;
 import com.greatminds.ayni.monitoring.interfaces.rest.transform.CreateSensorCommandFromResourceAssembler;
 import com.greatminds.ayni.monitoring.interfaces.rest.transform.SensorResourceFromEntityAssembler;
 import com.greatminds.ayni.monitoring.interfaces.rest.transform.UpdateSensorCommandFromResourceAssembler;
+import com.greatminds.ayni.monitoring.interfaces.rest.transform.UpdateSensorValuesCommandFromResourceAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -68,6 +70,19 @@ public class SensorController {
     public ResponseEntity<SensorResource> updateSensor(@PathVariable Long sensorId, @RequestBody UpdateSensorResource updateSensorResource){
         var updateSensorCommand = UpdateSensorCommandFromResourceAssembler.toCommandFromResource(sensorId, updateSensorResource);
         var updatedSensor = sensorCommandService.handle(updateSensorCommand);
+
+        if(updatedSensor.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
+
+        var sensorResource = SensorResourceFromEntityAssembler.toResourceFromEntity(updatedSensor.get());
+            return ResponseEntity.ok(sensorResource);
+    }
+
+    @PutMapping("/{cropId}")
+    public ResponseEntity<SensorResource> updateSensorValues(@PathVariable Long cropId, @RequestBody UpdateSensorValuesResource updateSensorValuesResource){
+        var updateSensorValuesCommand = UpdateSensorValuesCommandFromResourceAssembler.toCommandFromResource(cropId, updateSensorValuesResource);
+        var updatedSensor = sensorCommandService.handle(updateSensorValuesCommand);
 
         if(updatedSensor.isEmpty()){
             return ResponseEntity.badRequest().build();

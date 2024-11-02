@@ -1,5 +1,7 @@
 package com.greatminds.ayni.planification.interfaces.rest;
 
+import com.greatminds.ayni.monitoring.interfaces.rest.SensorController;
+import com.greatminds.ayni.monitoring.interfaces.rest.resources.CreateSensorResource;
 import com.greatminds.ayni.planification.domain.model.queries.GetAllCropsQuery;
 import com.greatminds.ayni.planification.domain.model.queries.GetCropByIdQuery;
 import com.greatminds.ayni.planification.domain.services.CropCommandService;
@@ -30,10 +32,12 @@ import java.util.stream.Collectors;
 public class CropController {
     private final CropQueryService cropQueryService;
     private final CropCommandService cropCommandService;
+    private final SensorController sensorController;
 
-    public CropController(CropQueryService cropQueryService, CropCommandService cropCommandService) {
+    public CropController(CropQueryService cropQueryService, CropCommandService cropCommandService, SensorController sensorController) {
         this.cropQueryService = cropQueryService;
         this.cropCommandService = cropCommandService;
+        this.sensorController = sensorController;
     }
 
     /**
@@ -59,6 +63,11 @@ public class CropController {
         }
 
         var cropResource = CropResourceFromEntityAssembler.toResourceFromEntity(crop.get());
+
+        CreateSensorResource sensorResource = new CreateSensorResource((float) 0, (float) 0, (float) 0, (float) 0, cropId);
+
+        sensorController.createSensor(sensorResource);
+
         return new ResponseEntity<>(cropResource, HttpStatus.CREATED);
     }
 

@@ -21,7 +21,7 @@ class AyniBackendApplicationTests {
 
     @Autowired
     private SaleRepository saleRepository;
-
+//test de calificada
     @Test
     @Transactional
     public void testIsQualified() {
@@ -42,7 +42,7 @@ class AyniBackendApplicationTests {
 
         assertTrue(updatedOrder.isQualified());
     }
-
+//test de finalizada
     @Test
     @Transactional
     public void testIsFinalized() {
